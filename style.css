@@ -1183,3 +1183,39 @@ button:hover {
 
 
 /* End of Style CSS */
+/* Existing CSS */
+
+footer{
+    background:#3d2c2c;
+    color:white;
+    text-align:center;
+    padding:30px;
+}
+
+/* Existing responsive CSS */
+
+@media(max-width:600px){
+
+.hero h1{
+    font-size:38px;
+}
+
+.logo{
+    font-size:28px;
+}
+
+.card img{
+    height:240px;
+}
+
+}
+
+/* 👇 PASTE THE NEW SHOPPING CART CSS HERE */
+
+/* ===========================
+   SHOPPING CART SIDEBAR
+=========================== */
+
+.cart-sidebar{
+   ...
+}
