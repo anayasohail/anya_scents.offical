@@ -1,195 +1,95 @@
-// =========================================
-// ANAYA SCENTS LUXURY WEBSITE
-// PART 3 - SHOPPING CART SYSTEM
-// =========================================
+// =========================
+// Shopping Cart - Part 1
+// =========================
 
+const cartIcon = document.querySelector(".fa-cart-shopping");
+const cartSidebar = document.getElementById("cartSidebar");
+const closeCart = document.getElementById("closeCart");
+const cartItems = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
 
 let cart = [];
 
+// Open Cart
+cartIcon.addEventListener("click", () => {
+    cartSidebar.classList.add("active");
+});
 
-// Add product to cart
+// Close Cart
+closeCart.addEventListener("click", () => {
+    cartSidebar.classList.remove("active");
+});
 
-function addToCart(name, price, image) {
+// Product Buttons
+const buttons = document.querySelectorAll(".card button");
 
-    let product = {
-        name: name,
-        price: price,
-        image: image,
-        quantity: 1
-    };
+buttons.forEach((button, index) => {
 
+    button.addEventListener("click", () => {
 
-    let existing = cart.find(item => item.name === name);
+        const card = button.parentElement;
 
+        const name = card.querySelector("h3").innerText;
 
-    if(existing){
+        const priceText = card.querySelector("p").innerText;
 
-        existing.quantity++;
+        const price = parseInt(priceText.replace(/[^\d]/g, ""));
 
-    } else {
+        cart.push({
+            name,
+            price
+        });
 
-        cart.push(product);
+        updateCart();
 
-    }
+    });
 
-
-    updateCart();
-
-    openCart();
-
-}
-
-
+});
 
 // Update Cart
-
 function updateCart(){
-
-    let cartItems = document.getElementById("cart-items");
-
-    let cartCount = document.getElementById("cart-count");
-
-    let total = document.getElementById("cart-total");
-
 
     cartItems.innerHTML = "";
 
+    let total = 0;
 
-    let totalAmount = 0;
+    cart.forEach((item, index)=>{
 
-    let count = 0;
-
-
-
-    cart.forEach((item,index)=>{
-
-
-        totalAmount += item.price * item.quantity;
-
-        count += item.quantity;
-
-
+        total += item.price;
 
         cartItems.innerHTML += `
 
         <div class="cart-item">
 
-        <div>
+            <div>
 
-        <h4>${item.name}</h4>
+                <h4>${item.name}</h4>
 
-        <p>
-        Rs. ${item.price}
-        x ${item.quantity}
-        </p>
+                <p>PKR ${item.price}</p>
 
-        </div>
+            </div>
 
+            <button onclick="removeItem(${index})">
 
-        <button onclick="removeItem(${index})">
-        ❌
-        </button>
+                Remove
 
+            </button>
 
         </div>
 
         `;
 
-
     });
 
-
-
-    cartCount.innerHTML = count;
-
-    total.innerHTML = 
-    "Total: Rs. " + totalAmount;
-
-
+    cartTotal.innerText = "PKR " + total;
 
 }
 
-
-
-// Remove item
-
+// Remove Item
 function removeItem(index){
 
     cart.splice(index,1);
 
     updateCart();
-
-}
-
-
-
-// Open Cart
-
-function openCart(){
-
-    document
-    .getElementById("cart-sidebar")
-    .classList
-    .add("active");
-
-}
-
-
-
-// Close Cart
-
-function closeCart(){
-
-    document
-    .getElementById("cart-sidebar")
-    .classList
-    .remove("active");
-
-}
-
-
-
-// Checkout
-
-function checkout(){
-
-
-    if(cart.length === 0){
-
-        alert(
-        "Your cart is empty!"
-        );
-
-        return;
-
-    }
-
-
-    let message =
-    "Hello Anaya Scents,%0A%0A";
-
-
-    cart.forEach(item=>{
-
-        message +=
-        item.name +
-        " x " +
-        item.quantity +
-        " = Rs. " +
-        item.price * item.quantity +
-        "%0A";
-
-    });
-
-
-
-    message +=
-    "%0AThank you!";
-
-
-    window.open(
-    "https://wa.me/?text=" 
-    + message
-    );
 
 }
